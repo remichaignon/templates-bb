@@ -66,8 +66,6 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 Where holder is where your templates will be stored; object is extra parameters you wish to pass to the TemplateCollection (like default language, etc); callback is a function to be executed once all templates are loaded.
 
 
-
-
 ## Author
 
 [Rémi Chaignon](http://www.github.com/remichaignon) - Front End Developer at Simple Energy - [@remichaignon](http://twitter.com/remichaignon)
