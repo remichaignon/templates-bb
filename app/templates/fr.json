@@ -1,0 +1,10 @@
+[
+    {
+        "localization": "{\n\t&quot;title&quot;: &quot;Ceci est la Page Une&quot;,\n\t&quot;goTo&quot;: &quot;Par ici la Page Deux&quot;,\n\t&quot;changeLang&quot;: &quot;Voir ceci en anglais&quot;\n}", 
+        "_name": "page1"
+    }, 
+    {
+        "localization": "{\n\t&quot;title&quot;: &quot;Ceci est la Page Deux&quot;,\n\t&quot;goBack&quot;: &quot;Retour \u00e0 la Page Une&quot;,\n\t&quot;changeLang&quot;: &quot;Voir ceci en anglais&quot;\n}", 
+        "_name": "page2"
+    }
+]

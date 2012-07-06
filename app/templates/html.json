@@ -1,0 +1,10 @@
+[
+    {
+        "markup": "&lt;h1&gt;&lt;%= lang.title %&gt;&lt;/h1&gt;\n&lt;button id=&quot;goto&quot;&gt;&lt;%= lang.goTo %&gt;&lt;/button&gt;\n&lt;button id=&quot;lang&quot;&gt;&lt;%= lang.changeLang %&gt;&lt;/button&gt;", 
+        "_name": "page1"
+    }, 
+    {
+        "markup": "&lt;h1&gt;&lt;%= lang.title %&gt;&lt;/h1&gt;\n&lt;button id=&quot;goback&quot;&gt;&lt;%= lang.goBack %&gt;&lt;/button&gt;\n&lt;button id=&quot;lang&quot;&gt;&lt;%= lang.changeLang %&gt;&lt;/button&gt;", 
+        "_name": "page2"
+    }
+]
