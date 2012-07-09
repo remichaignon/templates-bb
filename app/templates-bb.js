@@ -126,35 +126,46 @@
 					}
 				}
 			}
+			else {
+				// Reset templates
+				this.reset();
+			}
+
 			return data;
 		},
 		// Fetching markup and localization duplicates template, this merges the two
 		merge: function(callback) {
 			var merging = false;
 
-			// Get template names and avoid duplicates
-			var names = _.uniq(this.pluck("_name"));
+			// No templates, execute callback anyway
+			if (this.models.length === 0 && !this.merged) {
+				merging = true;
+			}
+			else {
+				// Get template names and avoid duplicates
+				var names = _.uniq(this.pluck("_name"));
 
-			// Loop through available names
-			for (var index in names) {
-				// Get the templates matching the name
-				var models = this.where({ _name: names[index]});
+				// Loop through available names
+				for (var index in names) {
+					// Get the templates matching the name
+					var models = this.where({ _name: names[index]});
 
-				// Merge them if they are two
-				if (2 === models.length) {
-					merging = true;
+					// Merge them if they are two
+					if (2 === models.length) {
+						merging = true;
 
-					// 1 has markup -> set 0's markup with 1's markup and get rid of 1
-					if (models[1].get("hasMarkup")) {
-						models[0].set("markup", models[1].get("markup"));
-						models[0].set("hasMarkup", models[1].get("hasMarkup"));
-						this.remove(models[1]);
-					}
-					// 1 has localization -> set 0's localization with 1's localization and get rid of 1
-					if (models[1].get("hasLocalization")) {
-						models[0].set("localization", models[1].get("localization"));
-						models[0].set("hasLocalization",  models[1].get("hasLocalization"));
-						this.remove(models[1]);
+						// 1 has markup -> set 0's markup with 1's markup and get rid of 1
+						if (models[1].get("hasMarkup")) {
+							models[0].set("markup", models[1].get("markup"));
+							models[0].set("hasMarkup", models[1].get("hasMarkup"));
+							this.remove(models[1]);
+						}
+						// 1 has localization -> set 0's localization with 1's localization and get rid of 1
+						if (models[1].get("hasLocalization")) {
+							models[0].set("localization", models[1].get("localization"));
+							models[0].set("hasLocalization",  models[1].get("hasLocalization"));
+							this.remove(models[1]);
+						}
 					}
 				}
 			}
@@ -213,7 +224,7 @@
 	});
 
 	// Ready, execute the callback once the templates are loaded
-	RC.template.ready = function(holder, collection, callback) {
+	RC.template.ready = function(holder, args, callback) {
 		// Make sure templates are loaded
 		if (RC.tools.exists(holder.templates) && holder.templates.merged) {
 			// Templates have already been fetched...
@@ -222,7 +233,7 @@
 			}
 		}
 		else {
-			holder.templates = new RC.template.TemplateCollection(collection);
+			holder.templates = new RC.template.TemplateCollection(args);
 			holder.templates.fetchAll(function() {
 				// All the templates have been fetched, let's get to business...
 				if (_.isFunction(callback)) {
