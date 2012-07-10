@@ -102,9 +102,9 @@
 		baseURL: config.url + "/app/templates",
 		model: RC.template.TemplateModel,
 		// Initialize parameters
-		initialize: function(args) {
-			// Extend/Overwrite the parameters with the ones passed in arguments
-			_.extend(this, args);
+		initialize: function(args, options) {
+			// Extend/Overwrite the parameters with the options passed in arguments
+			_.extend(this, options);
 		},
 		// Parse the data returned by fetch()
 		parse: function(data) {
@@ -125,10 +125,6 @@
 						data[index].hasLocalization = true;
 					}
 				}
-			}
-			else {
-				// Reset templates
-				this.reset();
 			}
 
 			return data;
@@ -228,7 +224,7 @@
 	});
 
 	// Ready, execute the callback once the templates are loaded
-	RC.template.ready = function(holder, args, callback) {
+	RC.template.ready = function(holder, options, callback) {
 		// Make sure templates are loaded
 		if (RC.tools.exists(holder.templates) && holder.templates.isReady) {
 			// Templates have already been fetched...
@@ -237,7 +233,7 @@
 			}
 		}
 		else {
-			holder.templates = new RC.template.TemplateCollection(args);
+			holder.templates = new RC.template.TemplateCollection(null, options);
 			holder.templates.fetchAll(function() {
 				// All the templates have been fetched, let's get to business...
 				if (_.isFunction(callback)) {
