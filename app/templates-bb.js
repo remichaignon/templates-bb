@@ -98,7 +98,7 @@
 	// Collection
 	RC.template.TemplateCollection = Backbone.Collection.extend({
 		lang: "en",
-		merged: false,
+		isReady: false,
 		baseURL: config.url + "/app/templates",
 		model: RC.template.TemplateModel,
 		// Initialize parameters
@@ -133,13 +133,16 @@
 
 			return data;
 		},
-		// Fetching markup and localization duplicates template, this merges the two
+		// Fetching markup and localization duplicates templates, this merges them
 		merge: function(callback) {
-			var merging = false;
+			// Templates are already ready, no need for merging
+			if (this.isReady) {
+				return;
+			}
 
-			// No templates, execute callback anyway
-			if (this.models.length === 0 && !this.merged) {
-				merging = true;
+			// No templates mean they are ready
+			if (this.models.length === 0) {
+				this.isReady = true;
 			}
 			else {
 				// Get template names and avoid duplicates
@@ -152,7 +155,7 @@
 
 					// Merge them if they are two
 					if (2 === models.length) {
-						merging = true;
+						this.isReady = true;
 
 						// 1 has markup -> set 0's markup with 1's markup and get rid of 1
 						if (models[1].get("hasMarkup")) {
@@ -170,9 +173,8 @@
 				}
 			}
 
-			// Merging occured, execute callback
-			if (merging) {
-				this.merged = true;
+			// Templates are ready, execute callback
+			if (this.isReady) {
 				if (_.isFunction(callback)) {
 					callback();
 				}
@@ -181,12 +183,14 @@
 		// Fetch the markup only and try to merge it once it's received
 		fetchMarkup: function(callback) {
 			var that = this;
+			this.isReady = false;
 			this.url = this.baseURL + "/html.json";
 			this.fetch({ add: true }).done(function() { that.merge(callback); });
 		},
 		// Fetch the localization only and try to merge it once it's received
 		fetchLocalization: function(callback) {
 			var that = this;
+			this.isReady = false;
 			this.url = this.baseURL + "/" + this.lang + ".json";
 			this.fetch({ add: true }).done(function() { that.merge(callback); });
 		},
@@ -226,7 +230,7 @@
 	// Ready, execute the callback once the templates are loaded
 	RC.template.ready = function(holder, args, callback) {
 		// Make sure templates are loaded
-		if (RC.tools.exists(holder.templates) && holder.templates.merged) {
+		if (RC.tools.exists(holder.templates) && holder.templates.isReady) {
 			// Templates have already been fetched...
 			if (_.isFunction(callback)) {
 				callback();
