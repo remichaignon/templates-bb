@@ -38,21 +38,6 @@
 	///////////////////////////////////////////////////////////////////////////
 	// $TOOLS
 
-	// Check if variable exist
-	RC.tools.exists = function(obj) {
-		return ("undefined" !== typeof obj) && (null !== obj);
-	};
-
-	// Returns its first argument if this value is false or null; otherwise, returns its second argument
-	RC.tools.and = function(obj1, obj2) {
-		return (RC.tools.exists(obj1) || obj1) ? obj2 : obj1;
-	};
-
-	// Returns its first argument if this value is different from null and false; otherwise, returns its second argument
-	RC.tools.or = function(obj1, obj2) {
-		return (RC.tools.exists(obj1) && obj1) ? obj1 : obj2;
-	};
-
 	// HTML encode
 	RC.tools.htmlEncode = function(value) {
 		return $("<div/>").text(value).html();
@@ -72,7 +57,6 @@
 	RC.template.TemplateModel = Backbone.Model.extend({
 		defaults: {
 			_name: "error",
-			template: function() {},
 			markup: "<h1><%= lang.title %></h1><h3><%= lang.error %></h3>",
 			localization: { title: "Error !", error: "Template couldn't be loaded." },
 			data: {},
@@ -86,10 +70,10 @@
 			// Build the html only if required
 			if (this.get("dirty")) {
 				// Create underscore template
-				this.set("template", _.template(this.get("markup")));
+				var template = _.template(this.get("markup"));
 
 				// Build html from template and update flag
-				this.set("html", this.get("template")({ lang: this.get("localization"), data: this.get("data") }));
+				this.set("html", template({ lang: this.get("localization"), data: this.get("data") }));
 				this.set("dirty", false);
 			}
 		}
@@ -109,17 +93,17 @@
 		// Parse the data returned by fetch()
 		parse: function(data) {
 			// Make sure valid data is returned
-			if (RC.tools.exists(data) && data.length >= 1) {
+			if (!_.isUndefined(data) && data.length >= 1) {
 				// Loop through templates
 				for (var index in data) {
 					// Markup was returned
-					if (RC.tools.exists(data[index].markup)) {
+					if (!_.isUndefined(data[index].markup)) {
 						// Decode markup and update flag
 						data[index].markup = RC.tools.htmlDecode(data[index].markup);
 						data[index].hasMarkup = true;
 					}
 					// Localization was returned
-					if (RC.tools.exists(data[index].localization)) {
+					if (!_.isUndefined(data[index].localization)) {
 						// Parse and decode localization and update flag
 						data[index].localization = $.parseJSON(RC.tools.htmlDecode(data[index].localization));
 						data[index].hasLocalization = true;
@@ -226,7 +210,7 @@
 	// Ready, execute the callback once the templates are loaded
 	RC.template.ready = function(holder, options, callback) {
 		// Make sure templates are loaded
-		if (RC.tools.exists(holder.templates) && holder.templates.isReady) {
+		if (!_.isUndefined(holder.templates) && holder.templates.isReady) {
 			// Templates have already been fetched...
 			if (_.isFunction(callback)) {
 				callback();
@@ -281,7 +265,7 @@
 		},
 		showPageOne: function() {
 			// Render page one (create it if necessary)
-			if (!RC.tools.exists(RC.test.page1)) {
+			if (_.isUndefined(RC.test.page1)) {
 				RC.test.page1 = new RC.test.PageModel();
 				RC.test.page1.view = new RC.test.PageView({ _name: "page1", model: RC.test.page1 });
 			}
@@ -291,7 +275,7 @@
 		},
 		showPageTwo: function() {
 			// Render page two (create it if necessary)
-			if (!RC.tools.exists(RC.test.page2)) {
+			if (_.isUndefined(RC.test.page2)) {
 				RC.test.page2 = new RC.test.PageModel();
 				RC.test.page2.view = new RC.test.PageView({ _name: "page2", model: RC.test.page2 });
 			}
