@@ -282,7 +282,7 @@
 		},
 		render: function() {
 			// Replace the content of the page by the template
-			this.$el.empty().append(this.template.view.render());
+			this.$el.html(this.template.view.render());
 		},
 		showPageOne: function() {
 			// Render page one (create it if necessary)

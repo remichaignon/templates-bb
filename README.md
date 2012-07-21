@@ -56,7 +56,7 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 		// Do your own thing...
 
 		// Replace the content by the template
-		this.$el.empty().append(this.template.view.render());
+		this.$el.html(this.template.view.render());
 	},
 ```
 6. Finally, in your app, add this line:
@@ -73,7 +73,7 @@ Should you need to build your html in 2 times:
 1. The data pass, that can potentially insert some localized strings in your code
 2. The language pass, that will replace localized strings by the correct text
 
-Use RC.template.DoublePassTemplateModel instead of the regular RC.template.TemplateModel (replace the model in RC.template.TemplateCollection), it will do the trick.
+Use ```RC.template.DoublePassTemplateModel``` instead of the regular ```RC.template.TemplateModel``` (replace the ```model``` in ```RC.template.TemplateCollection```), it will do the trick.
 
 To differentiate data from language, ```<% evaluated_data %>``` and ```<%= interpolated_data %>``` are used for the data pass; and ```<@ evaluated_lang @>``` and ```<@= interpolated_lang @>``` are used for the language pass.
 
