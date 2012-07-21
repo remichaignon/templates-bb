@@ -66,6 +66,18 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 Where holder is where your templates will be stored; object is extra parameters you wish to pass to the TemplateCollection (like default language, etc); callback is a function to be executed once all templates are loaded.
 
 
+## Usage bis
+
+Should you need to build your html in 2 times:
+
+1. The data pass, that can potentially insert some localized strings in your code
+2. The language pass, that will replace localized strings by the correct text
+
+Use RC.template.DoublePassTemplateModel instead of the regular RC.template.TemplateModel (replace the model in RC.template.TemplateCollection), it will do the trick.
+
+To differentiate data from language, ```<% evaluated_data %>``` and ```<%= interpolated_data %>``` are used for the data pass; and ```<@ evaluated_lang @>``` and ```<@= interpolated_lang @>``` are used for the language pass.
+
+
 ## License
 
 templates-bb.js is released under the MIT license.

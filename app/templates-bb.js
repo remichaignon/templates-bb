@@ -53,7 +53,7 @@
 	///////////////////////////////////////////////////////////////////////////
 	// $TEMPLATE
 
-	// Model
+	// Model - Simple template
 	RC.template.TemplateModel = Backbone.Model.extend({
 		defaults: {
 			_name: null, // Required
@@ -71,6 +71,35 @@
 
 				// Build html from template and update flag
 				this.set("html", template({ lang: this.get("localization"), data: this.get("data") }));
+			}
+		}
+	});
+
+	// Model - Double pass template
+	RC.template.DoublePassTemplateModel = RC.template.TemplateModel.extend({
+		// Build html out of template and template data
+		build: function() {
+			// Build the html only if required
+			if (_.isNull(this.get("html"))) {
+				// First pass: the data
+				_.templateSettings = {
+					interpolate: /\<\%\=(.+?)\%\>/gim,
+					evaluate: /\<\%(.+?)\%\>/gim
+				};
+				// Build basic template and execute the data pass
+				var template = _.template(this.get("markup"));
+				var dataTemplate = template(this.get("data"));
+
+				// Second pass: the localization
+				_.templateSettings = {
+					interpolate: /\<\@\=(.+?)\@\>/gim,
+					evaluate: /\<\@(.+?)\@\>/gim
+				};
+				// Execute the localization pass on the data-filled template
+				var langTemplate = _.template(dataTemplate);
+
+				// Build final html from resulting template and update flag
+				this.set("html", langTemplate(this.get("localization")));
 			}
 		}
 	});
