@@ -25,29 +25,11 @@
 	// Namespace
 	var RC = {};
 
-	// Tools functions holder
-	RC.tools = {};
-
 	// Template classes holder
 	RC.template = {};
 
 	// Test classes holder
 	RC.test = {};
-
-
-	///////////////////////////////////////////////////////////////////////////
-	// $TOOLS
-
-	// HTML encode
-	RC.tools.htmlEncode = function(value) {
-		return $("<div/>").text(value).html();
-	};
-
-	// HTML decode
-	RC.tools.htmlDecode = function(value) {
-		return $("<div/>").html(value).text();
-	};
-
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -134,12 +116,12 @@
 					// Markup was returned
 					if (!_.isUndefined(data[index].markup)) {
 						// Decode markup
-						data[index].markup = RC.tools.htmlDecode(data[index].markup);
+						data[index].markup = $("<div/>").html(data[index].markup).text();
 					}
 					// Localization was returned
 					if (!_.isUndefined(data[index].localization)) {
 						// Parse and decode localization
-						data[index].localization = $.parseJSON(RC.tools.htmlDecode(data[index].localization));
+						data[index].localization = $.parseJSON($("<div/>").html(data[index].localization).text());
 					}
 				}
 			}
