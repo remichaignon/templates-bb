@@ -39,7 +39,7 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 ```JS
 	initialize: function() {
 		// Get template model
-		var template = RC.test.templates.where({ _name: "my_template_name" });
+		var template = RC.test.templates.where({ name: "my_template_name" });
 
 		// Create template view
 		if (1 === template.length) {
