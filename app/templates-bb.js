@@ -38,7 +38,7 @@
 	// Model - Simple template
 	RC.template.TemplateModel = Backbone.Model.extend({
 		defaults: {
-			_name: null, // Required
+			name: null, // Required
 			markup: null, // Required
 			localization: null, // Optional
 			data: null, // Optional
@@ -141,12 +141,12 @@
 			}
 			else {
 				// Get template names and avoid duplicates
-				var names = _.uniq(this.pluck("_name"));
+				var names = _.uniq(this.pluck("name"));
 
 				// Loop through available names
 				for (var index in names) {
 					// Get the templates matching the name
-					var models = this.where({ _name: names[index]});
+					var models = this.where({ name: names[index]});
 
 					// Merge them if they are two
 					if (2 === models.length) {
@@ -263,7 +263,7 @@
 		template: null,
 		initialize: function(args, options) {
 			// Get page template model
-			var pageTemplate = RC.test.templates.where({ _name: this.options._name });
+			var pageTemplate = RC.test.templates.where({ name: this.options.name });
 
 			// Create page template view
 			if (1 === pageTemplate.length) {
@@ -279,7 +279,7 @@
 			// Render page one (create it if necessary)
 			if (_.isUndefined(RC.test.page1)) {
 				RC.test.page1 = new RC.test.PageModel();
-				RC.test.page1.view = new RC.test.PageView({ _name: "page1", model: RC.test.page1 });
+				RC.test.page1.view = new RC.test.PageView({ name: "page1", model: RC.test.page1 });
 				RC.test.page1.view.template.set("data", { day: (new Date()).getDate() });
 			}
 			RC.test.page2.view.current = false;
@@ -290,7 +290,7 @@
 			// Render page two (create it if necessary)
 			if (_.isUndefined(RC.test.page2)) {
 				RC.test.page2 = new RC.test.PageModel();
-				RC.test.page2.view = new RC.test.PageView({ _name: "page2", model: RC.test.page2 });
+				RC.test.page2.view = new RC.test.PageView({ name: "page2", model: RC.test.page2 });
 				RC.test.page2.view.template.set("data", { day: (new Date()).getDate() });
 			}
 			RC.test.page1.view.current = false;
@@ -321,7 +321,7 @@
 		var buildPageOne = function() {
 			// Simply build a page and render it
 			RC.test.page1 = new RC.test.PageModel();
-			RC.test.page1.view = new RC.test.PageView({ _name: "page1", model: RC.test.page1 });
+			RC.test.page1.view = new RC.test.PageView({ name: "page1", model: RC.test.page1 });
 			RC.test.page1.view.template.set("data", { day: (new Date()).getDate() });
 			RC.test.page1.view.current = true;
 			RC.test.page1.view.render();

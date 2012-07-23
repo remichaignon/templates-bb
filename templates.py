@@ -29,10 +29,10 @@ html_dict = []
 for infile in glob.glob(os.path.join(path, "*.html")):
     print "> Current file is: " + infile
     current_dict = {}
-    current_dict["_name"] = infile[infile.rfind("/") + 1:infile.rfind(".")]
+    current_dict["name"] = infile[infile.rfind("/") + 1:infile.rfind(".")]
     current = open(infile, "r+")
     current_dict["markup"] = html_escape(current.read())
-    if re.match("\&lt\;\@\=?(.+?)\@\&gt\;", current_dict["markup"]):
+    if re.search("\&lt\;\@\=?(.+?)\@\&gt\;", current_dict["markup"]):
         current_dict["double_pass"] = True
     current.close()
     html_dict.append(current_dict)
@@ -45,7 +45,7 @@ html_dict = []
 for infile in glob.glob(os.path.join(path, "*.en.strings")):
     print "> Current file is: " + infile
     current_dict = {}
-    current_dict["_name"] = infile[infile.rfind("/") + 1:-11]
+    current_dict["name"] = infile[infile.rfind("/") + 1:-11]
     current = open(infile, "r+")
     current_dict["localization"] = html_escape(current.read())
     current.close()
@@ -59,7 +59,7 @@ html_dict = []
 for infile in glob.glob(os.path.join(path, "*.fr.strings")):
     print "> Current file is: " + infile
     current_dict = {}
-    current_dict["_name"] = infile[infile.rfind("/") + 1:-11]
+    current_dict["name"] = infile[infile.rfind("/") + 1:-11]
     current = open(infile, "r+")
     current_dict["localization"] = html_escape(current.read())
     current.close()

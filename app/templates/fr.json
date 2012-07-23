@@ -1,10 +1,10 @@
 [
     {
-        "localization": "{\n\t&quot;title&quot;: &quot;Ceci est la Page Une&quot;,\n\t&quot;today&quot;: &quot;Aujourd&apos;hui est le &quot;,\n\t&quot;goTo&quot;: &quot;Par ici la Page Deux&quot;,\n\t&quot;changeLang&quot;: &quot;Voir ceci en anglais&quot;\n}", 
-        "_name": "page1"
+        "name": "page1", 
+        "localization": "{\n\t&quot;title&quot;: &quot;Ceci est la Page Une&quot;,\n\t&quot;today&quot;: &quot;Aujourd&apos;hui est le &quot;,\n\t&quot;goTo&quot;: &quot;Par ici la Page Deux&quot;,\n\t&quot;changeLang&quot;: &quot;Voir ceci en anglais&quot;\n}"
     }, 
     {
-        "localization": "{\n\t&quot;title&quot;: &quot;Ceci est la Page Deux&quot;,\n\t&quot;even&quot;: &quot;Aujourd&apos;hui est un jour pair.&quot;,\n\t&quot;odd&quot;: &quot;Aujourd&apos;hui est un jour impair.&quot;,\n\t&quot;goBack&quot;: &quot;Retour \u00e0 la Page Une&quot;,\n\t&quot;changeLang&quot;: &quot;Voir ceci en anglais&quot;\n}", 
-        "_name": "page2"
+        "name": "page2", 
+        "localization": "{\n\t&quot;title&quot;: &quot;Ceci est la Page Deux&quot;,\n\t&quot;even&quot;: &quot;Aujourd&apos;hui est un jour pair.&quot;,\n\t&quot;odd&quot;: &quot;Aujourd&apos;hui est un jour impair.&quot;,\n\t&quot;goBack&quot;: &quot;Retour \u00e0 la Page Une&quot;,\n\t&quot;changeLang&quot;: &quot;Voir ceci en anglais&quot;\n}"
     }
 ]
