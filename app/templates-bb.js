@@ -44,6 +44,12 @@
 			data: null, // Optional
 			html: null
 		},
+		initialize: function() {
+			// Reset html if attributes change
+			this.on("change:markup", function() { this.set("html", null); });
+			this.on("change:localization", function() { this.set("html", null); });
+			this.on("change:data", function() { this.set("html", null); });
+		},
 		// Build html out of template and template data
 		build: function() {
 			// Build the html only if required
@@ -196,16 +202,7 @@
 		setLanguage: function(lang, callback) {
 			var that = this;
 			this.lang = lang;
-			this.fetchLocalization(function() {
-				// Rebuild template once the localization has been updated
-				_.each(that.models, function(template) {
-					template.set("html", null);
-				});
-				// Execute callback
-				if (_.isFunction(callback)) {
-					callback();
-				}
-			});
+			this.fetchLocalization(callback);
 		}
 	});
 
