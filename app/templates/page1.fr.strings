@@ -1,5 +1,6 @@
 {
 	"title": "Ceci est la Page Une",
+	"today": "Aujourd'hui est le ",
 	"goTo": "Par ici la Page Deux",
 	"changeLang": "Voir ceci en anglais"
 }

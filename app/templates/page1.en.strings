@@ -1,5 +1,6 @@
 {
 	"title": "This is Page One",
+	"today": "Today is the ",
 	"goTo": "This way to Page Two",
 	"changeLang": "See this in french"
 }

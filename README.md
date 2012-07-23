@@ -31,9 +31,9 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 1. Copy what's in the RC.template namespace in your Backbone app,
 2. Compile your templates using the python script (python templates.py),
 3. Make sure the url in TemplateCollection points to where your compiled templates are,
-4. In your view that uses template, add this attribute:
+4. In your view that uses template, add this attribute (optional):
 ```JS
-	template: new RC.template.TemplateModel()
+	template: null
 ```
 5. In your view that uses template, define your initialization function like this:
 ```JS
@@ -73,9 +73,9 @@ Should you need to build your html in 2 times:
 1. The data pass, that can potentially insert some localized strings in your code
 2. The language pass, that will replace localized strings by the correct text
 
-Use ```RC.template.DoublePassTemplateModel``` instead of the regular ```RC.template.TemplateModel``` (replace the ```model``` in ```RC.template.TemplateCollection```), it will do the trick.
-
 To differentiate data from language, ```<% evaluated_data %>``` and ```<%= interpolated_data %>``` are used for the data pass; and ```<@ evaluated_lang @>``` and ```<@= interpolated_lang @>``` are used for the language pass.
+
+The templates builder script (templates.py), will automatically detect if you use this form of template (it will look for the presence of ```<@ abc @>``` or ```<@= def @>```), set a flag, and as a result the program will instanciate the correct type of template.
 
 
 ## License

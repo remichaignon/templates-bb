@@ -1,5 +1,7 @@
 {
 	"title": "Ceci est la Page Deux",
+	"even": "Aujourd'hui est un jour pair.",
+	"odd": "Aujourd'hui est un jour impair.",
 	"goBack": "Retour à la Page Une",
 	"changeLang": "Voir ceci en anglais"
 }

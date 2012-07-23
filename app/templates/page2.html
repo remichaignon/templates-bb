@@ -1,3 +1,4 @@
-<h1><%= lang.title %></h1>
-<button id="goback"><%= lang.goBack %></button>
-<button id="lang"><%= lang.changeLang %></button>
+<h1><@= title @></h1>
+<p><% if (0 === (day % 2)) { %><@= even @><% } else { %><@= odd @><% } %><p>
+<button id="goback"><@= goBack @></button>
+<button id="lang"><@= changeLang @></button>

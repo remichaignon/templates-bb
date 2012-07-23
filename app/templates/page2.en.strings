@@ -1,5 +1,7 @@
 {
 	"title": "That is Page Two",
+	"even": "Today is an even day.",
+	"odd": "Today is an odd day.",
 	"goBack": "Go back to Page One",
 	"changeLang": "See this in french"
 }

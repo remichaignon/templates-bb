@@ -66,11 +66,11 @@
 		build: function() {
 			// Build the html only if required
 			if (_.isNull(this.get("html"))) {
-				// Create underscore template
-				var template = _.template(this.get("markup"));
-
-				// Build html from template and update flag
-				this.set("html", template({ lang: this.get("localization"), data: this.get("data") }));
+				// Create template using the markup
+				// Combine localization and data object
+				// Execute the templating with the resulting object
+				// Set result as html
+				this.set("html", _.template(this.get("markup"))(_.extend(this.get("localization"), this.get("data"))));
 			}
 		}
 	});
@@ -82,24 +82,27 @@
 			// Build the html only if required
 			if (_.isNull(this.get("html"))) {
 				// First pass: the data
-				_.templateSettings = {
-					interpolate: /\<\%\=(.+?)\%\>/gim,
-					evaluate: /\<\%(.+?)\%\>/gim
-				};
-				// Build basic template and execute the data pass
-				var template = _.template(this.get("markup"));
-				var dataTemplate = template(this.get("data"));
+				// Create template using the markup
+				// Execute the templating with the data object
+				var template = _.template(this.get("markup"))(this.get("data"));
 
-				// Second pass: the localization
+				// Adapt template settings to localization pass
 				_.templateSettings = {
 					interpolate: /\<\@\=(.+?)\@\>/gim,
 					evaluate: /\<\@(.+?)\@\>/gim
 				};
-				// Execute the localization pass on the data-filled template
-				var langTemplate = _.template(dataTemplate);
 
-				// Build final html from resulting template and update flag
-				this.set("html", langTemplate(this.get("localization")));
+				// Second pass: the localization
+				// Create template using the result of the data pass
+				// Execute the templating with the localization object
+				// Set result as html
+				this.set("html", _.template(template)(this.get("localization")));
+
+				// Reset template settings
+				_.templateSettings = {
+					interpolate: /\<\%\=(.+?)\%\>/gim,
+					evaluate: /\<\%(.+?)\%\>/gim
+				};
 			}
 		}
 	});
@@ -109,7 +112,14 @@
 		lang: "en",
 		isReady: false,
 		baseURL: config.url + "/app/templates",
-		model: RC.template.TemplateModel,
+		model: function(attrs, options) {
+			// Choose which model to instanciate according to the data
+			if (!_.isUndefined(attrs.double_pass) && attrs.double_pass) {
+				return new RC.template.DoublePassTemplateModel(attrs, options);
+			}
+
+			return new RC.template.TemplateModel(attrs, options);
+		},
 		// Initialize parameters
 		initialize: function(args, options) {
 			// Extend/Overwrite the parameters with the options passed in arguments
@@ -208,7 +218,6 @@
 				// Rebuild template once the localization has been updated
 				_.each(that.models, function(template) {
 					template.set("html", null);
-					template.build();
 				});
 				// Execute callback
 				if (_.isFunction(callback)) {
@@ -269,8 +278,8 @@
 			"click #lang": "changeLanguage"
 		},
 		current: false,
-		template: new RC.template.TemplateModel(),
-		initialize: function() {
+		template: null,
+		initialize: function(args, options) {
 			// Get page template model
 			var pageTemplate = RC.test.templates.where({ _name: this.options._name });
 
@@ -289,6 +298,7 @@
 			if (_.isUndefined(RC.test.page1)) {
 				RC.test.page1 = new RC.test.PageModel();
 				RC.test.page1.view = new RC.test.PageView({ _name: "page1", model: RC.test.page1 });
+				RC.test.page1.view.template.set("data", { day: (new Date()).getDate() });
 			}
 			RC.test.page2.view.current = false;
 			RC.test.page1.view.current = true;
@@ -299,6 +309,7 @@
 			if (_.isUndefined(RC.test.page2)) {
 				RC.test.page2 = new RC.test.PageModel();
 				RC.test.page2.view = new RC.test.PageView({ _name: "page2", model: RC.test.page2 });
+				RC.test.page2.view.template.set("data", { day: (new Date()).getDate() });
 			}
 			RC.test.page1.view.current = false;
 			RC.test.page2.view.current = true;
@@ -329,6 +340,7 @@
 			// Simply build a page and render it
 			RC.test.page1 = new RC.test.PageModel();
 			RC.test.page1.view = new RC.test.PageView({ _name: "page1", model: RC.test.page1 });
+			RC.test.page1.view.template.set("data", { day: (new Date()).getDate() });
 			RC.test.page1.view.current = true;
 			RC.test.page1.view.render();
 		};

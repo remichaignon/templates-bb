@@ -1,6 +1,7 @@
 import os
 import glob
 import json
+import re
 
 path = "app/templates/"
 print "Path is " + path
@@ -31,6 +32,8 @@ for infile in glob.glob(os.path.join(path, "*.html")):
     current_dict["_name"] = infile[infile.rfind("/") + 1:infile.rfind(".")]
     current = open(infile, "r+")
     current_dict["markup"] = html_escape(current.read())
+    if re.match("\&lt\;\@\=?(.+?)\@\&gt\;", current_dict["markup"]):
+        current_dict["double_pass"] = True
     current.close()
     html_dict.append(current_dict)
 html = open(os.path.join(path, "html.json"), "w+")
