@@ -5,38 +5,25 @@
 //
 // ============================================================================
 //
-// TOOLS
-// TEMPLATE
-// TEST
-// APPLICATION
+// MODEL - SIMPLE
+// MODEL - DOUBLE PASS
+// COLLECTION
+// VIEW
+// READY
 //
 // ============================================================================
 //
 
 
-(function(window, $) {
+(function() {
 
-	// Global configuration
-	var config = {
-		url: "http://127.0.0.1:1337",
-		extension: ".json"
-	};
-
-	// Namespace
-	var RC = {};
-
-	// Template classes holder
-	RC.template = {};
-
-	// Test classes holder
-	RC.test = {};
+	TemplatesBB = {};
 
 
 	///////////////////////////////////////////////////////////////////////////
-	// $TEMPLATE
+	// $MODEL - SIMPLE
 
-	// Model - Simple template
-	RC.template.TemplateModel = Backbone.Model.extend({
+	TemplatesBB.TemplateModel = Backbone.Model.extend({
 		defaults: {
 			name: null, // Required
 			markup: null, // Required
@@ -63,8 +50,11 @@
 		}
 	});
 
-	// Model - Double pass template
-	RC.template.DoublePassTemplateModel = RC.template.TemplateModel.extend({
+
+	///////////////////////////////////////////////////////////////////////////
+	// $MODEL - DOUBLE PASS
+
+	TemplatesBB.DoublePassTemplateModel =  TemplatesBB.TemplateModel.extend({
 		// Build html out of template and template data
 		build: function() {
 			// Build the html only if required
@@ -95,18 +85,21 @@
 		}
 	});
 
-	// Collection
-	RC.template.TemplateCollection = Backbone.Collection.extend({
+
+	///////////////////////////////////////////////////////////////////////////
+	// $COLLECTION
+
+	TemplatesBB.TemplateCollection = Backbone.Collection.extend({
+		baseURL: null, // Required
 		lang: "en",
 		isReady: false,
-		baseURL: config.url + "/app/templates",
 		model: function(attrs, options) {
 			// Choose which model to instanciate according to the data
 			if (!_.isUndefined(attrs.double_pass) && attrs.double_pass) {
-				return new RC.template.DoublePassTemplateModel(attrs, options);
+				return new  TemplatesBB.DoublePassTemplateModel(attrs, options);
 			}
 
-			return new RC.template.TemplateModel(attrs, options);
+			return new  TemplatesBB.TemplateModel(attrs, options);
 		},
 		// Initialize parameters
 		initialize: function(args, options) {
@@ -206,8 +199,11 @@
 		}
 	});
 
-	// View
-	RC.template.TemplateView = Backbone.View.extend({
+
+	///////////////////////////////////////////////////////////////////////////
+	// $VIEW
+
+	TemplatesBB.TemplateView = Backbone.View.extend({
 		events: {},
 		// Render the template -> build it if necessary and return element's html
 		render: function() {
@@ -216,8 +212,11 @@
 		}
 	});
 
-	// Ready, execute the callback once the templates are loaded
-	RC.template.ready = function(holder, options, callback) {
+
+	///////////////////////////////////////////////////////////////////////////
+	// $READY
+
+	TemplatesBB.ready = function(holder, options, callback) {
 		// Make sure templates are loaded
 		if (!_.isUndefined(holder.templates) && holder.templates.isReady) {
 			// Templates have already been fetched...
@@ -226,7 +225,7 @@
 			}
 		}
 		else {
-			holder.templates = new RC.template.TemplateCollection(null, options);
+			holder.templates = new  TemplatesBB.TemplateCollection(null, options);
 			holder.templates.fetchAll(function() {
 				// All the templates have been fetched, let's get to business...
 				if (_.isFunction(callback)) {
@@ -235,101 +234,4 @@
 			});
 		}
 	};
-
-
-	///////////////////////////////////////////////////////////////////////////
-	// $TEST
-
-	// Model
-	RC.test.PageModel = Backbone.Model.extend({
-		defaults: {
-			args: "something"
-		},
-		initialize: function() {}
-	});
-
-	// View
-	RC.test.PageView = Backbone.View.extend({
-		el: "#js-page",
-		events: {
-			"click #goto": "showPageTwo",
-			"click #goback": "showPageOne",
-			"click #lang": "changeLanguage"
-		},
-		current: false,
-		template: null,
-		initialize: function(args, options) {
-			// Get page template model
-			var pageTemplate = RC.test.templates.where({ name: this.options.name });
-
-			// Create page template view
-			if (1 === pageTemplate.length) {
-				this.template = pageTemplate[0];
-				this.template.view = new RC.template.TemplateView({ model: this.template });
-			}
-		},
-		render: function() {
-			// Replace the content of the page by the template
-			this.$el.html(this.template.view.render());
-		},
-		showPageOne: function() {
-			// Render page one (create it if necessary)
-			if (_.isUndefined(RC.test.page1)) {
-				RC.test.page1 = new RC.test.PageModel();
-				RC.test.page1.view = new RC.test.PageView({ name: "page1", model: RC.test.page1 });
-				RC.test.page1.view.template.set("data", { day: (new Date()).getDate() });
-			}
-			RC.test.page2.view.current = false;
-			RC.test.page1.view.current = true;
-			RC.test.page1.view.render();
-		},
-		showPageTwo: function() {
-			// Render page two (create it if necessary)
-			if (_.isUndefined(RC.test.page2)) {
-				RC.test.page2 = new RC.test.PageModel();
-				RC.test.page2.view = new RC.test.PageView({ name: "page2", model: RC.test.page2 });
-				RC.test.page2.view.template.set("data", { day: (new Date()).getDate() });
-			}
-			RC.test.page1.view.current = false;
-			RC.test.page2.view.current = true;
-			RC.test.page2.view.render();
-		},
-		changeLanguage: function() {
-			var that = this;
-
-			// Rebuild templates with new language
-			if (this.current) {
-				var lang = (RC.test.templates.lang === "en") ? "fr" : "en";
-
-				RC.test.templates.setLanguage(lang, function() {
-					that.render();
-				});
-			}
-		}
-	});
-
-
-	///////////////////////////////////////////////////////////////////////////
-	// $APPLICATION
-
-	RC.test.init = function(){
-		console.log("Hello templates-bb!");
-
-		var buildPageOne = function() {
-			// Simply build a page and render it
-			RC.test.page1 = new RC.test.PageModel();
-			RC.test.page1.view = new RC.test.PageView({ name: "page1", model: RC.test.page1 });
-			RC.test.page1.view.template.set("data", { day: (new Date()).getDate() });
-			RC.test.page1.view.current = true;
-			RC.test.page1.view.render();
-		};
-
-		// Build page one once all the templates are loaded
-		RC.template.ready(RC.test, {}, buildPageOne);
-	};
-
-
-	window.RC = RC;
-	$(document).ready(RC.test.init);
-
-})(this, jQuery);
+}).call(this);
