@@ -1,7 +1,7 @@
 //
-// templates-bb.js
+// app.js
 //
-// Javascript templating library using Backbone.
+// Example application for templates-bb.
 //
 // ============================================================================
 //

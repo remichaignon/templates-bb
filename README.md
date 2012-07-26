@@ -15,7 +15,7 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 - [Backbone](http://backbonejs.org/)
 
 
-## Try it
+## Example
 
 1. Clone this repository
 2. Install node.js
@@ -27,30 +27,28 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 
 ## Usage
 
-0. Copy what's in the RC.tools namespace in your Backbone app (unless you have your own functions, in that substitute them in the next step),
-1. Copy what's in the RC.template namespace in your Backbone app,
-2. Compile your templates using the python script (python templates.py),
-3. Make sure the url in TemplateCollection points to where your compiled templates are,
-4. In your view that uses template, add this attribute (optional):
+0. Add templates-bb.js to your scripts,
+1. Compile your templates using the python script (python templates.py), change the path to your templates in the script if necessary,
+2. In your view that uses template, add this attribute (optional):
 ```JS
 	template: null
 ```
-5. In your view that uses template, define your initialization function like this:
+3. In your view that uses template, define your initialization function like this:
 ```JS
 	initialize: function() {
 		// Get template model
-		var template = RC.test.templates.where({ name: "my_template_name" });
+		var template = my_template_holder.templates.where({ name: "my_template_name" });
 
 		// Create template view
 		if (1 === template.length) {
 			this.template = template[0];
-			this.template.view = new RC.template.TemplateView({ model: this.template });
+			this.template.view = new TemplatesBB.TemplateView({ model: this.template });
 		}
 
 		// Do your own thing...
 	},
 ```
-5. In your view that uses template, define your render function like this:
+4. In your view that uses template, define your render function like this:
 ```JS
 	render: function() {
 		// Do your own thing...
@@ -59,11 +57,12 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 		this.$el.html(this.template.view.render());
 	},
 ```
-6. Finally, in your app, add this line:
+5. Finally, in your app, add this line:
 ```JS
-	RC.template.ready(holder, object, callback);
+	var my_options = { baseURL: "/path_to_template_folder", lang: "en" };
+	RC.template.ready(my_template_holder, my_options, my_callback);
 ```
-Where holder is where your templates will be stored; object is extra parameters you wish to pass to the TemplateCollection (like default language, etc); callback is a function to be executed once all templates are loaded.
+Where my_template_holder is where your templates will be stored (it must match with step 3); my_options is parameters you wish to pass to the TemplateCollection (like the baseURL to your template files, default language, etc); my_callback is a function to be executed once all templates are loaded.
 
 
 ## Usage bis
