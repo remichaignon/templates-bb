@@ -8,7 +8,6 @@
 // MODEL - SIMPLE
 // MODEL - DOUBLE PASS
 // COLLECTION
-// VIEW
 // READY
 //
 // ============================================================================
@@ -47,6 +46,11 @@
 				// Set result as html
 				this.set("html", _.template(this.get("markup"))(_.extend(this.get("localization"), this.get("data"))));
 			}
+		},
+		// Render the template -> build it if necessary and return element's html
+		render: function() {
+			this.build();
+			return this.get("html");
 		}
 	});
 
@@ -196,19 +200,6 @@
 			var that = this;
 			this.lang = lang;
 			this.fetchLocalization(callback);
-		}
-	});
-
-
-	///////////////////////////////////////////////////////////////////////////
-	// $VIEW
-
-	TemplatesBB.TemplateView = Backbone.View.extend({
-		events: {},
-		// Render the template -> build it if necessary and return element's html
-		render: function() {
-			this.model.build();
-			return this.model.get("html");
 		}
 	});
 

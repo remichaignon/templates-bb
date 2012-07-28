@@ -36,14 +36,8 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 3. In your view that uses template, define your initialization function like this:
 ```JS
 	initialize: function() {
-		// Get template model
-		var template = my_template_holder.templates.where({ name: "my_template_name" });
-
-		// Create template view
-		if (1 === template.length) {
-			this.template = template[0];
-			this.template.view = new TemplatesBB.TemplateView({ model: this.template });
-		}
+		// Get template
+		this.template = my_template_holder.templates.where({ name: "my_template_name" })[0];
 
 		// Do your own thing...
 	},
@@ -54,13 +48,13 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 		// Do your own thing...
 
 		// Replace the content by the template
-		this.$el.html(this.template.view.render());
+		this.$el.html(this.template.render());
 	},
 ```
 5. Finally, in your app, add this line:
 ```JS
 	var my_options = { baseURL: "/path_to_template_folder", lang: "en" };
-	RC.template.ready(my_template_holder, my_options, my_callback);
+	TemplatesBB.ready(my_template_holder, my_options, my_callback);
 ```
 Where my_template_holder is where your templates will be stored (it must match with step 3); my_options is parameters you wish to pass to the TemplateCollection (like the baseURL to your template files, default language, etc); my_callback is a function to be executed once all templates are loaded.
 

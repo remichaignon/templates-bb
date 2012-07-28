@@ -45,18 +45,12 @@
 		current: false,
 		template: null,
 		initialize: function(args, options) {
-			// Get page template model
-			var pageTemplate = app.templates.where({ name: this.options.name });
-
-			// Create page template view
-			if (1 === pageTemplate.length) {
-				this.template = pageTemplate[0];
-				this.template.view = new TemplatesBB.TemplateView({ model: this.template });
-			}
+			// Get page template
+			this.template = app.templates.where({ name: this.options.name })[0];
 		},
 		render: function() {
 			// Replace the content of the page by the template
-			this.$el.html(this.template.view.render());
+			this.$el.html(this.template.render());
 		},
 		showPageOne: function() {
 			// Render page one (create it if necessary)
