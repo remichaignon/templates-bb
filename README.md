@@ -28,7 +28,7 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 ## Usage
 
 0. Add templates-bb.js to your scripts,
-1. Compile your templates using the python script (```SH python templates.py ```), change the path to your templates in the script if necessary,
+1. Compile your templates using the python script (```python templates.py```), change the path to your templates in the script if necessary,
 2. In your view that uses template, add this attribute (optional):
 ```JS
 	template: null
