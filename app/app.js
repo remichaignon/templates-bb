@@ -29,7 +29,7 @@
 	// Model
 	app.PageModel = Backbone.Model.extend({
 		defaults: {
-			args: "something"
+			data: null
 		},
 		initialize: function() {}
 	});
@@ -50,14 +50,13 @@
 		},
 		render: function() {
 			// Replace the content of the page by the template
-			this.$el.html(this.template.render());
+			this.$el.html(this.template.render(this.model.get("data")));
 		},
 		showPageOne: function() {
 			// Render page one (create it if necessary)
 			if (_.isUndefined(app.page1)) {
-				app.page1 = new app.PageModel();
+				app.page1 = new app.PageModel({ data: { day: (new Date()).getDate() } });
 				app.page1.view = new app.PageView({ name: "page1", model: app.page1 });
-				app.page1.view.template.set("data", { day: (new Date()).getDate() });
 			}
 			app.page2.view.current = false;
 			app.page1.view.current = true;
@@ -66,9 +65,8 @@
 		showPageTwo: function() {
 			// Render page two (create it if necessary)
 			if (_.isUndefined(app.page2)) {
-				app.page2 = new app.PageModel();
+				app.page2 = new app.PageModel({ data: { day: (new Date()).getDate() } });
 				app.page2.view = new app.PageView({ name: "page2", model: app.page2 });
-				app.page2.view.template.set("data", { day: (new Date()).getDate() });
 			}
 			app.page1.view.current = false;
 			app.page2.view.current = true;
@@ -97,9 +95,8 @@
 
 		var buildPageOne = function() {
 			// Simply build a page and render it
-			app.page1 = new app.PageModel();
+			app.page1 = new app.PageModel({ data: { day: (new Date()).getDate() } });
 			app.page1.view = new app.PageView({ name: "page1", model: app.page1 });
-			app.page1.view.template.set("data", { day: (new Date()).getDate() });
 			app.page1.view.current = true;
 			app.page1.view.render();
 		};

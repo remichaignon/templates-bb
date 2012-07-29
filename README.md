@@ -28,7 +28,7 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 ## Usage
 
 0. Add templates-bb.js to your scripts,
-1. Compile your templates using the python script (python templates.py), change the path to your templates in the script if necessary,
+1. Compile your templates using the python script (```SH python templates.py ```), change the path to your templates in the script if necessary,
 2. In your view that uses template, add this attribute (optional):
 ```JS
 	template: null
@@ -48,9 +48,10 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 		// Do your own thing...
 
 		// Replace the content by the template
-		this.$el.html(this.template.render());
+		this.$el.html(this.template.render(my_data);
 	},
 ```
+Where my_data is the data you need to feed your template.
 5. Finally, in your app, add this line:
 ```JS
 	var my_options = { baseURL: "/path_to_template_folder", lang: "en" };

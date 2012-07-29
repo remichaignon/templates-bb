@@ -27,29 +27,27 @@
 			name: null, // Required
 			markup: null, // Required
 			localization: null, // Optional
-			data: null, // Optional
 			html: null
 		},
 		initialize: function() {
 			// Reset html if attributes change
 			this.on("change:markup", function() { this.set("html", null); });
 			this.on("change:localization", function() { this.set("html", null); });
-			this.on("change:data", function() { this.set("html", null); });
 		},
 		// Build html out of template and template data
-		build: function() {
+		build: function(data) {
 			// Build the html only if required
 			if (_.isNull(this.get("html"))) {
 				// Create template using the markup
 				// Combine localization and data object
 				// Execute the templating with the resulting object
 				// Set result as html
-				this.set("html", _.template(this.get("markup"))(_.extend(this.get("localization"), this.get("data"))));
+				this.set("html", _.template(this.get("markup"))(_.extend(this.get("localization"), data)));
 			}
 		},
 		// Render the template -> build it if necessary and return element's html
-		render: function() {
-			this.build();
+		render: function(data) {
+			this.build(data);
 			return this.get("html");
 		}
 	});
@@ -60,13 +58,13 @@
 
 	TemplatesBB.DoublePassTemplateModel =  TemplatesBB.TemplateModel.extend({
 		// Build html out of template and template data
-		build: function() {
+		build: function(data) {
 			// Build the html only if required
 			if (_.isNull(this.get("html"))) {
 				// First pass: the data
 				// Create template using the markup
 				// Execute the templating with the data object
-				var template = _.template(this.get("markup"))(this.get("data"));
+				var template = _.template(this.get("markup"))(data);
 
 				// Adapt template settings to localization pass
 				_.templateSettings = {
