@@ -31,7 +31,7 @@ for infile in glob.glob(os.path.join(path, "*.html")):
     current_dict = {}
     current_dict["name"] = infile[infile.rfind("/") + 1:infile.rfind(".")]
     current = open(infile, "r+")
-    current_dict["markup"] = html_escape(current.read())
+    current_dict["markup"] = html_escape(current.read().replace("\n", "").replace("\t", ""))
     if re.search("\&lt\;\@\=?(.+?)\@\&gt\;", current_dict["markup"]):
         current_dict["double_pass"] = True
     current.close()
@@ -47,7 +47,7 @@ for infile in glob.glob(os.path.join(path, "*.en.strings")):
     current_dict = {}
     current_dict["name"] = infile[infile.rfind("/") + 1:-11]
     current = open(infile, "r+")
-    current_dict["localization"] = html_escape(current.read())
+    current_dict["localization"] = json.loads(current.read())
     current.close()
     html_dict.append(current_dict)
 html = open(os.path.join(path, "en.json"), "w+")
@@ -61,7 +61,7 @@ for infile in glob.glob(os.path.join(path, "*.fr.strings")):
     current_dict = {}
     current_dict["name"] = infile[infile.rfind("/") + 1:-11]
     current = open(infile, "r+")
-    current_dict["localization"] = html_escape(current.read())
+    current_dict["localization"] = json.loads(current.read())
     current.close()
     html_dict.append(current_dict)
 html = open(os.path.join(path, "fr.json"), "w+")

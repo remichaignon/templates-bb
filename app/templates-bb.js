@@ -119,11 +119,7 @@
 						// Decode markup
 						data[index].markup = $("<div/>").html(data[index].markup).text();
 					}
-					// Localization was returned
-					if (!_.isUndefined(data[index].localization)) {
-						// Parse and decode localization
-						data[index].localization = $.parseJSON($("<div/>").html(data[index].localization).text());
-					}
+					// Localization doesn't need to be decoded
 				}
 			}
 

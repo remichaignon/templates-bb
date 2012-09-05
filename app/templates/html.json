@@ -1,10 +1,10 @@
 [
     {
-        "markup": "&lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt;\n&lt;p&gt;&lt;%= today %&gt;&lt;%= day %&gt;.&lt;p&gt;\n&lt;button id=&quot;goto&quot;&gt;&lt;%= goTo %&gt;&lt;/button&gt;\n&lt;button id=&quot;lang&quot;&gt;&lt;%= changeLang %&gt;&lt;/button&gt;", 
+        "markup": "&lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt;&lt;p&gt;&lt;%= today %&gt;&lt;%= day %&gt;.&lt;p&gt;&lt;button id=&quot;goto&quot;&gt;&lt;%= goTo %&gt;&lt;/button&gt;&lt;button id=&quot;lang&quot;&gt;&lt;%= changeLang %&gt;&lt;/button&gt;", 
         "name": "page1"
     }, 
     {
-        "markup": "&lt;h1&gt;&lt;@= title @&gt;&lt;/h1&gt;\n&lt;p&gt;&lt;% if (0 === (day % 2)) { %&gt;&lt;@= even @&gt;&lt;% } else { %&gt;&lt;@= odd @&gt;&lt;% } %&gt;&lt;p&gt;\n&lt;button id=&quot;goback&quot;&gt;&lt;@= goBack @&gt;&lt;/button&gt;\n&lt;button id=&quot;lang&quot;&gt;&lt;@= changeLang @&gt;&lt;/button&gt;", 
+        "markup": "&lt;h1&gt;&lt;@= title @&gt;&lt;/h1&gt;&lt;p&gt;&lt;% if (0 === (day % 2)) { %&gt;&lt;@= even @&gt;&lt;% } else { %&gt;&lt;@= odd @&gt;&lt;% } %&gt;&lt;p&gt;&lt;button id=&quot;goback&quot;&gt;&lt;@= goBack @&gt;&lt;/button&gt;&lt;button id=&quot;lang&quot;&gt;&lt;@= changeLang @&gt;&lt;/button&gt;", 
         "name": "page2", 
         "double_pass": true
     }
