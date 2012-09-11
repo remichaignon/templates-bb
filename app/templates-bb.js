@@ -25,6 +25,7 @@
 	TemplatesBB.TemplateModel = Backbone.Model.extend({
 		defaults: {
 			name: null, // Required
+			dataSource: null, // Required
 			markup: null, // Required
 			localization: null, // Optional
 			html: null
@@ -47,7 +48,7 @@
 		},
 		// Render the template -> build it if necessary and return element's html
 		render: function(data) {
-			this.build(data);
+			this.build(_.extend(!_.isNull(this.get("dataSource")) ? this.get("dataSource").getData() : {}, data));
 			return this.get("html");
 		}
 	});
