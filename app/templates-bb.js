@@ -32,8 +32,8 @@
 		},
 		initialize: function() {
 			// Reset html if attributes change
-			this.on("change:markup", function() { this.set("html", null); });
-			this.on("change:localization", function() { this.set("html", null); });
+			this.on("change:markup", function() { this.clear(); });
+			this.on("change:localization", function() { this.clear(); });
 		},
 		// Build html out of template and template data
 		build: function(data) {
@@ -50,6 +50,10 @@
 		render: function(data) {
 			this.build(_.extend(!_.isNull(this.get("dataSource")) ? this.get("dataSource").getData() : {}, data));
 			return this.get("html");
+		},
+		// Clear the template -> to force a build on next render
+		clear: function() {
+			this.set("html", null);
 		}
 	});
 
