@@ -4,13 +4,8 @@ import json
 import re
 
 path = "app/templates/"
+langs = ["en", "fr"]
 print "Path is " + path
-
-print "Removing previous json files..."
-for infile in glob.glob(os.path.join(path, "*.json")):
-    print "> Current file is: " + infile
-    os.remove(infile)
-
 
 html_escape_table = {
     "&": "&amp;",
@@ -23,6 +18,12 @@ html_escape_table = {
 
 def html_escape(text):
     return "".join(html_escape_table.get(c, c) for c in text)
+
+
+print "Removing previous json files..."
+for infile in glob.glob(os.path.join(path, "*.json")):
+    print "> Current file is: " + infile
+    os.remove(infile)
 
 print "Building html file"
 html_dict = []
@@ -37,33 +38,21 @@ for infile in glob.glob(os.path.join(path, "*.html")):
     current.close()
     html_dict.append(current_dict)
 html = open(os.path.join(path, "html.json"), "w+")
-html.write(json.dumps(html_dict, indent=4))
+html.write(json.dumps(html_dict, separators=(",", ":")))
 html.close()
 
-print "Building english file"
-html_dict = []
-for infile in glob.glob(os.path.join(path, "*.en.strings")):
-    print "> Current file is: " + infile
-    current_dict = {}
-    current_dict["name"] = infile[infile.rfind("/") + 1:-11]
-    current = open(infile, "r+")
-    current_dict["localization"] = json.loads(current.read())
-    current.close()
-    html_dict.append(current_dict)
-html = open(os.path.join(path, "en.json"), "w+")
-html.write(json.dumps(html_dict, indent=4))
-html.close()
-
-print "Building french file"
-html_dict = []
-for infile in glob.glob(os.path.join(path, "*.fr.strings")):
-    print "> Current file is: " + infile
-    current_dict = {}
-    current_dict["name"] = infile[infile.rfind("/") + 1:-11]
-    current = open(infile, "r+")
-    current_dict["localization"] = json.loads(current.read())
-    current.close()
-    html_dict.append(current_dict)
-html = open(os.path.join(path, "fr.json"), "w+")
-html.write(json.dumps(html_dict, indent=4))
-html.close()
+print "Building language files"
+for lang in langs:
+    print "Building " + lang + " file"
+    lang_dict = []
+    for infile in glob.glob(os.path.join(path, "*." + lang + ".strings")):
+        print "> Current file is: " + infile
+        current_dict = {}
+        current_dict["name"] = infile[infile.rfind("/") + 1:-11]
+        current = open(infile, "r+")
+        current_dict["localization"] = json.loads(current.read())
+        current.close()
+        lang_dict.append(current_dict)
+    html = open(os.path.join(path, lang + ".json"), "w+")
+    html.write(json.dumps(lang_dict, separators=(",", ":")))
+    html.close()
