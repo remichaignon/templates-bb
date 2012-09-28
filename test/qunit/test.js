@@ -5,10 +5,10 @@
 //
 // ============================================================================
 //
-// READY
-// COLLECTION
 // TEMPLATEMODEL
 // DOUBLEPASSTEMPLATEMODEL
+// COLLECTION
+// READY
 // START
 //
 // ============================================================================
@@ -16,157 +16,6 @@
 
 
 (function(window, $) {
-/*
-	// Global configuration
-	var config = {
-		url: "http://127.0.0.1:1337"
-	};
-
-	// Test classes holder
-	app = {};
-
-
-	///////////////////////////////////////////////////////////////////////////
-	// $APPLICATION
-
-	// Model
-	app.PageModel = Backbone.Model.extend({
-		defaults: {
-			data: null
-		},
-		initialize: function() {}
-	});
-
-	// View
-	app.PageView = Backbone.View.extend({
-		el: "#js-page",
-		events: {
-			"click #goto": "showPageTwo",
-			"click #goback": "showPageOne",
-			"click #lang": "changeLanguage"
-		},
-		current: false,
-		template: null,
-		initialize: function(args, options) {
-			// Get page template
-			this.template = app.templates.where({ name: this.options.name })[0];
-		},
-		render: function() {
-			// Replace the content of the page by the template
-			this.$el.html(this.template.render(this.model.get("data")));
-		},
-		showPageOne: function() {
-			// Render page one (create it if necessary)
-			if (_.isUndefined(app.page1)) {
-				app.page1 = new app.PageModel({ data: { day: (new Date()).getDate() } });
-				app.page1.view = new app.PageView({ name: "page1", model: app.page1 });
-			}
-			app.page2.view.current = false;
-			app.page1.view.current = true;
-			app.page1.view.render();
-		},
-		showPageTwo: function() {
-			// Render page two (create it if necessary)
-			if (_.isUndefined(app.page2)) {
-				app.page2 = new app.PageModel({ data: { day: (new Date()).getDate() } });
-				app.page2.view = new app.PageView({ name: "page2", model: app.page2 });
-			}
-			app.page1.view.current = false;
-			app.page2.view.current = true;
-			app.page2.view.render();
-		},
-		changeLanguage: function() {
-			var that = this;
-
-			// Rebuild templates with new language
-			if (this.current) {
-				var lang = (app.templates.lang === "en") ? "fr" : "en";
-
-				app.templates.setLanguage(lang, function() {
-					that.render();
-				});
-			}
-		}
-	});
-
-
-	///////////////////////////////////////////////////////////////////////////
-	// $INITIALIZATION
-
-	app.init = function(){
-		console.log("Hello app using templates-bb!");
-
-		var buildPageOne = function() {
-			// Simply build a page and render it
-			app.page1 = new app.PageModel({ data: { day: (new Date()).getDate() } });
-			app.page1.view = new app.PageView({ name: "page1", model: app.page1 });
-			app.page1.view.current = true;
-			app.page1.view.render();
-		};
-
-		// Build page one once all the templates are loaded
-		TemplatesBB.ready(app, { baseURL: config.url + "/app/templates" }, buildPageOne);
-	};
-
-
-	window.app = app;
-	$(document).ready(app.init);
-*/
-	///////////////////////////////////////////////////////////////////////////
-	// $READY
-
-	module("TemplatesBB.ready()");
-
-	test("Holder has templates", function() {
-		ok(true, "...");
-	});
-
-	test("Options are passed through", function() {
-		ok(true, "...");
-	});
-
-	test("Callback is called", function() {
-		ok(true, "...");
-	});
-
-
-	///////////////////////////////////////////////////////////////////////////
-	// $COLLECTION
-
-	module("TemplatesBB.Collection");
-
-	test("model()", function() {
-		ok(true, "...");
-	});
-
-	test("initialize()", function() {
-		ok(true, "...");
-	});
-
-	test("parse()", function() {
-		ok(true, "...");
-	});
-
-	test("merge()", function() {
-		ok(true, "...");
-	});
-
-	test("fetchMarkup()", function() {
-		ok(true, "...");
-	});
-
-	test("fetchLocalization()", function() {
-		ok(true, "...");
-	});
-
-	test("fetchAll()", function() {
-		ok(true, "...");
-	});
-
-	test("setLanguage()", function() {
-		ok(true, "...");
-	});
-
 
 	///////////////////////////////////////////////////////////////////////////
 	// $TEMPLATEMODEL
@@ -488,6 +337,71 @@
 		strictEqual(tpl.get("html"), null, "html has been reset to null automatically");
 	});
 
+
+	///////////////////////////////////////////////////////////////////////////
+	// $COLLECTION
+
+	module("TemplatesBB.Collection");
+
+	test("model()", function() {
+		// Create Collection
+		var collection = new TemplatesBB.TemplateCollection();
+
+		var singleModel = collection.model({});
+		strictEqual(singleModel.build, (new TemplatesBB.TemplateModel()).build, "TemplateModel is returned");
+
+		var doubleModel = collection.model({ double_pass: true });
+		strictEqual(doubleModel.build, (new TemplatesBB.DoublePassTemplateModel()).build, "DoublePassTemplateModel is returned");
+	});
+
+	test("initialize()", function() {
+		// Create Collection
+		var collection = new TemplatesBB.TemplateCollection(null, { test_string: "TEST_STRING", test_value: 42 });
+		strictEqual(collection.test_string, "TEST_STRING", "Option is passed through correctly (string)");
+		strictEqual(collection.test_value, 42, "Option is passed through correctly (value)");
+		strictEqual(collection.test_random, undefined, "No funny business");
+	});
+
+	test("parse()", function() {
+		ok(true, "...");
+	});
+
+	test("merge()", function() {
+		ok(true, "...");
+	});
+
+	test("fetchMarkup()", function() {
+		ok(true, "...");
+	});
+
+	test("fetchLocalization()", function() {
+		ok(true, "...");
+	});
+
+	test("fetchAll()", function() {
+		ok(true, "...");
+	});
+
+	test("setLanguage()", function() {
+		ok(true, "...");
+	});
+
+
+	///////////////////////////////////////////////////////////////////////////
+	// $READY
+
+	module("TemplatesBB");
+
+	test("ready()", function() {
+		var holder = {};
+		TemplatesBB.ready(holder, { baseURL: "http://127.0.0.1:1337/app/templates", test_option: "TEST_OPTION" }, function() { holder.callback_called = true; });
+		ok(holder.templates !== undefined, "Holder has some templates");
+		strictEqual(holder.templates.length, 2, "There are 2 templates");
+		ok(holder.templates.where({ name: "page1" })[0] !== undefined, "Page 1 exists");
+		ok(holder.templates.where({ name: "page2" })[0] !== undefined, "Page 2 exists");
+		strictEqual(holder.templates.test_option, "TEST_OPTION", "Options are passed through");
+		strictEqual(holder.callback_called, true, "Callback is called");
+	});
 
 
 	///////////////////////////////////////////////////////////////////////////
