@@ -392,15 +392,21 @@
 
 	module("TemplatesBB");
 
-	test("ready()", function() {
+	asyncTest("ready()", function() {
+		//expect( 6 );
 		var holder = {};
 		TemplatesBB.ready(holder, { baseURL: "http://127.0.0.1:1337/app/templates", test_option: "TEST_OPTION" }, function() { holder.callback_called = true; });
-		ok(holder.templates !== undefined, "Holder has some templates");
-		strictEqual(holder.templates.length, 2, "There are 2 templates");
-		ok(holder.templates.where({ name: "page1" })[0] !== undefined, "Page 1 exists");
-		ok(holder.templates.where({ name: "page2" })[0] !== undefined, "Page 2 exists");
-		strictEqual(holder.templates.test_option, "TEST_OPTION", "Options are passed through");
-		strictEqual(holder.callback_called, true, "Callback is called");
+
+		setTimeout(function() {
+			ok(holder.templates !== undefined, "Holder has some templates");
+			strictEqual(holder.templates.length, 2, "There are 2 templates");
+			ok(holder.templates.where({ name: "page1" })[0] !== undefined, "Page 1 exists");
+			ok(holder.templates.where({ name: "page2" })[0] !== undefined, "Page 2 exists");
+			strictEqual(holder.templates.test_option, "TEST_OPTION", "Options were passed through");
+			strictEqual(holder.callback_called, true, "Callback was called");
+
+			QUnit.start();
+		}, 1000);
 	});
 
 
@@ -408,6 +414,6 @@
 	// $START
 
 	// Tests are loaded, run 'em
-	QUnit.start();
+//	QUnit.start();
 
 })(this, jQuery);
