@@ -36,8 +36,9 @@ Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
 3. In your view that uses template, define your initialization function like this:
 ```JS
 	initialize: function() {
-		// Get template
-		this.template = my_template_holder.templates.where({ name: "my_template_name" })[0];
+		// Set template
+		var myTemplate = my_template_holder.templates.where({ name: "my_template_name" })[0];
+		this.template = new TemplatesBB.TemplateModel(myTemplate.attributes);
 
 		// Do your own thing...
 	},
