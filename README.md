@@ -5,7 +5,7 @@ Javascript templating library based on Backbone.
 
 ## Status
 
-Completed - Built for [gitchat](https://github.com/baguetteapps/gitchat_web).
+Not in development anymore.
 
 
 ## Dependencies
@@ -75,7 +75,7 @@ The templates builder script (templates.py), will automatically detect if you us
 
 ## License
 
-templates-bb.js is released under the MIT license.
+Unlicense (public domain).
 
 
 ## Author
